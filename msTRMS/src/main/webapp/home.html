@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="css/home.css">
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<script src="https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js"></script>
+	<script src="js/s3.js"></script>
+</head>
+<body id='htmlBody'>
+<h1><span id="greetings">Greetings!</span></h1>
+<span id="username"></span><a href="logout">logout</a><br/>
+
+<ul class="nav">
+	<li class="nav-item">
+		<a class="nav-link active" href="#" id="link_createRequest">Create Request</a>
+	</li>
+	<li class="nav-item">
+		<a class="nav-link" href="#" id="link_requestList">Your Requests</a>
+	</li>	
+	<li class="nav-item">
+		<a class="nav-link" href="#" id="link_subsRequests">Subordinate Requests</a>
+	</li>	
+	<li class="nav-item">
+		<a class="nav-link" href="#" id="link_bencoRequests">Benco</a>
+	</li>
+</ul>
+
+<span id="bencoRequests" class="pageRegions"></span>
+<span id="subsRequests" class="pageRegions"></span>
+<span id="requestList" class="pageRegions"></span>
+	<div id="requestListDetails" class="pageRegions empReqDets">
+		Event: <span id="rLD-Desc"></span><br/>
+		<br/>
+		Location: <span id="rLD-Loc"></span><br/>
+		Date/Time: <span id="rLD-DateTime"></span><br/>
+		GradeFmt: <span id="rLD-GradeFmt"></span><br/>
+		Type: <span id="rLD-Type"></span><br/>
+		Cost: <span id="rLD-Cost"></span><br/>
+		Reimbursement Amount: <span id="rLD-Reimb"></span><br/>
+		<br/>
+		Applied Date: <span id="rLD-DateApp"></span><br/>
+		Status: <span id="rLD-Status"></span><br/>
+	</div>
+
+	<div id="submitGradeDetails" class="pageRegions empReqDets">
+		<input type="hidden" id="sGD-ReqNum"/>
+		Event: <span id="sGD-Desc"></span><br/>
+		Date: <span id="sGD-Date"></span><br/>
+		Grade: <input type="text" id="sGD-GradeVal"/><br/>
+		Supporting Docs: <input type="file" id="sGD-Files" multiple/><br/>
+		<button id="sGD-Submit">Submit</button>
+	</div>
+
+	<div id="bencoListDetails" class="pageRegions bencoReqDets">
+		<div class="grid-container-benco">
+			<div class="grid-benco">Employee: <span id="bLD-Name"></span></div>
+				<div class="grid-benco"></div>
+			<div class="grid-benco">Event: <span id="bLD-Desc"></span></div>
+				<div class="grid-benco">Location: <span id="bLD-Loc"></span></div>
+			<div class="grid-benco">Date/Time:  <span id="bLD-DateTime"></span></div>
+				<div class="grid-benco"></div>
+			<div class="grid-benco">Grade Format:  <span id="bLD-GradeFmt"></span></div>
+				<div class="grid-benco"></div>
+			<div class="grid-benco">Event Type:  <span id="bLD-Type"></span></div>
+				<div class="grid-benco"></div>
+			<div class="grid-benco">Event Cost:  <span id="bLD-Cost"></span></div>
+				<div class="grid-benco"></div>
+			<div class="grid-benco">Reimbursement Amount:  <span id="bLD-Reimb"></span></div>
+				<div class="grid-benco"></div>
+			<div class="grid-benco">Date Applied:  <span id="bLD-DateApp"></span></div>
+				<div class="grid-benco">Status: <span id="bLD-Status"></span></div>
+			
+			<div class="grid-benco hiddenDiv">User has submitted files:</div><div></div>
+			<div class="grid-benco hiddenDiv">Direct Supervisor Email: </div>
+			<div class="grid-benco hiddenDiv"><span id="dSupFilesDiv"></span></div>
+			<div class="grid-benco hiddenDiv">Department Head Email: </div>
+			<div class="grid-benco hiddenDiv" id="deptFilesDiv"></div>
+			<div class="grid-benco hiddenDiv">Other Event Files:</div>
+			<div class="grid-benco hiddenDiv" id="eventFilesDiv"></div>
+		</div>
+	</div>
+	<div id="bencoGradeDetails" class="pageRegions bencoReqDets">
+		<div class="grid-container-benco">
+			<div class=".grid-benco">Employee Name: <span id="bGD-Name"></span>
+				<input type="hidden" id="bGD-reqNum"/></div>
+			<div class=".grid-benco">Event: <span id="bGD-Desc"></span></div>
+			<div class=".grid-benco">Grade Format: <span id="bGD-GradeFmt"></span></div>
+			<div></div>
+			<div class=".grid-benco">Grade Submitted: <span id="bGD-GradeSub"></span></div>
+			<div></div>
+			<div class=".grid-benco"><input type="checkbox" id="bGD-PresBox"> Completed Presentation?</div>
+			<div></div>
+			<div class=".grid-benco">
+				Approve/Deny <select id="bGD-AppDeny">
+					<option value="1">Please select</option>
+					<option value="2">Approve</option>
+					<option value="3">Deny</option>
+				</select>
+				<span id="bGD-WarnMessage"></span>
+			</div> 
+			<div class="hiddenDiv"></div>
+			<div class="hiddenDiv">User has submitted files:</div>
+			<div class="hiddenDiv" id="gradeFilesDiv"></div>
+			<div class="hiddenDiv"></div>
+			<div class=".grid-benco">
+				<button id="bGD-Submit">Submit
+			</div>
+		</div>
+	</div>
+<div id="createRequest" class="pageRegions">
+    <h3>Would you like to create a new TRMS Request?</h3><br/>
+
+    <input type="date" id="eventDate" placeholder="Date of event">
+	<input type="time" id="eventTime" placeholder="Time of Event"><br/>
+	<input type="text" id="eventDuration" placeholder="Event Duration"/><br/>
+    Event Type: <select id="eventType">
+  		<option value="1">University Course (80%)</option>
+		<option value="2">Seminar (60%)</option>
+		<option value="3">Certification Prep Course (75%)</option>
+		<option value="4">Certification(100%)</option>
+		<option value="5">Technical Training(90%)</option>
+		<option value="6">Other(30%)</option>
+	</select><br/>
+    <input type="text" id="eventLoc" maxlength="50" placeholder="Event Location"><br/>
+    <textarea id="eventDesc" maxLength=100 placeholder="Event Description"></textarea><br/>
+    <input type="number" id="eventCost" min ="0" max ="1000" placeholder="Cost of Event" step="0.01"> Reimbursed at: <span id="projRmbAmt"></span><br/>
+	<input type="text" id="eventGFmt" maxlength="50" placeholder="Grade Format"><br/>
+	Additional Event Documents: <input type="file" id="eventFiles" multiple><br/>
+	Direct Subordinate Approval: <input type="file" id="dsupAppEmail" accept=".eml"><br/>
+	Department Head Approval: <input type="file" id="deptAppEmail" accept=".eml"><br/>
+    <button id="requestButton">Submit Request</button>
+
+	<script src="js/home.js"></script>
+</div>
+<br/>
+
+</body>
+</html>

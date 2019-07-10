@@ -1,0 +1,43 @@
+.pageRegions {display: none;}
+#createRequest {display: initial;}
+.pointer {cursor: pointer;}
+.request_rows {border: 0px solid black;}
+.grid-container-empReqs {
+    display: grid;
+    grid-template-columns: 15% auto 20%;
+    width: 600px;
+    border: 1px black solid;
+}
+.grid-container-managerReqs {
+    display: grid;
+    grid-template-columns: 25% 15% 30% 15% 15%;
+    width: 600px;
+    border: 1px black solid;
+}
+.table-header {
+    font-weight: bold;
+}
+.grid-empReqs, .header {
+    text-align: left;
+    border: 1px black solid;
+}
+.grid-empReqs, .body {
+    text-align: right;
+    border: 1px black solid;
+}
+.grid-container-benco {
+    display: grid;
+    grid-template-columns: auto auto;
+    width: 600px;
+}
+.grid-benco {
+    text-align: left;
+}
+.hiddenDiv {
+    display: none;
+}
+.grid-container-bencoGrade {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    width: 600px;
+}
