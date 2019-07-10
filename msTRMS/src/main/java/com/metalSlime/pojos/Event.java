@@ -15,7 +15,6 @@ public class Event {
 	private double rmbAmt;
 	
 	// Adding a random comment
-	// Adding another comment
 	
 	public Event() {
 		super();
