@@ -14,6 +14,8 @@ public class Event {
 	private String durr;
 	private double rmbAmt;
 	
+	// Adding a random comment
+	
 	public Event() {
 		super();
 		// TODO Auto-generated constructor stub
