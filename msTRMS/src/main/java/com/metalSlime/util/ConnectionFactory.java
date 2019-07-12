@@ -11,10 +11,10 @@ import java.util.Properties;
 import javax.servlet.http.HttpServlet;
 
 public class ConnectionFactory {
-	private String url;
-    private String user;
-    private String password;
-    private static String PROPERTIES_FILE = "/WEB-INF/database.properties";
+	private String user = System.getenv("TRMS_USERNAME");
+    private String password = System.getenv("TRMS_PASSWORD");
+    private String url = "jdbc:postgresql://" + System.getenv("TRMS_URL") + ":5432/mJamesDB_061119?" ;
+//    private static String PROPERTIES_FILE = "/WEB-INF/database.properties";
     private static ConnectionFactory cf;
       
     // Must run this at first of Servlet!!!
@@ -51,20 +51,21 @@ public class ConnectionFactory {
     }
 
     private ConnectionFactory(HttpServlet servlet) {
-            Properties prop = new Properties();
-
-            try(InputStream fis = servlet.getServletContext().getResourceAsStream(PROPERTIES_FILE))
-            {
-                    prop.load(fis);
-                    url = prop.getProperty("url");
-                    user = prop.getProperty("user");
-                    password = prop.getProperty("password");
-            } catch (FileNotFoundException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-            } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-            }
+//            Properties prop = new Properties();
+//            InputStream fis = servlet.getServletContext().getResourceAsStream(PROPERTIES_FILE);
+            
+//            try
+//            {
+//                    prop.load(fis);
+//                    url = prop.getProperty("url");
+//                    user = prop.getProperty("user");
+//                    password = prop.getProperty("password");
+//            } catch (FileNotFoundException e) {
+//                    // TODO Auto-generated catch block
+//                    e.printStackTrace();
+//            } catch (IOException e) {
+//                    // TODO Auto-generated catch block
+//                    e.printStackTrace();
+//            }
     }
 }
