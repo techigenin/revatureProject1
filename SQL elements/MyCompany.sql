@@ -1,3 +1,6 @@
+drop table employee, validation, events, event_types, requests, request_status, request_files, request_grades, request_grades_response, approvals, reimbursements cascade;
+
+
 create table employee (
 	id integer primary key,
 	full_name varchar(50),
@@ -11,6 +14,7 @@ create table validation (
 	id	integer unique,
 	pass_word	varchar(50)
 );
+
 
 create table events (
 	event_id integer primary key,

@@ -32,8 +32,8 @@ public class MSLoginServlet extends HttpServlet {
 					.forward(req, resp);
 		else
 			getServletContext()
-			.getRequestDispatcher("/login.html")
-				.forward(req, resp);;
+			.getRequestDispatcher("/login.html" + System.getenv("TRMS_USERNAME"))
+				.forward(req, resp);
 	}
 	
 	@Override
